@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+"""pascal's triangle interview challenge"""
+
 def pascal_triangle(n):
     """
     Prints the Pascal's triangle of n.
