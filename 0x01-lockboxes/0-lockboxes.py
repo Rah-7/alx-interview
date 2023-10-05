@@ -1,58 +1,21 @@
 #!/usr/bin/python3
-""" lockboxes interview challenge """
+'''A module for working with lockboxes.
+'''
 
 
 def canUnlockAll(boxes):
-    """a method that determines if all the boxes can be opened."""
-    numofboxes = len(boxes)
-
-    # create an array with the status of each box
-    locked_unlocked = []
-    keys_list = []
-
-    # iterate through each box to set status for each
-    for i in range(numofboxes):
-        locked_unlocked.append('locked')
-    locked_unlocked[0] = 'unlocked'
-
-    # append first set of key(s) and unlock
-    for key in boxes[0]:
-        keys_list.append(key)
-    for key in keys_list:
-        if key:
-            locked_unlocked[key] = 'unlocked'
-    # iterate through the status of each box in boxes
-    for status in range(len(locked_unlocked)):
-        for key in keys_list:
-            if key:
-                locked_unlocked[key] = 'unlocked'
-
-        if locked_unlocked[status] == 'unlocked':
-            for key in boxes[status]:
-                keys_list.append(key)
-        # let's unlock some boxes which we have the keys
-        for key in keys_list:
-            locked_unlocked[key] = 'unlocked'
-        # reset keys_list, not needed but for better
-        # debugging and visualisation.
-        keys_list = []
-
-        # go through the status again and get keys of the newly
-        # unlocked boxes
-        for statuss in range(len(locked_unlocked)):
-            if locked_unlocked[statuss] == 'unlocked':
-                for key in boxes[statuss]:
-                    keys_list.append(key)
-
-    '''after checking and setting the status n number of times
-    check if any status is still 'locked', if any is still locked,
-    it means the unlocking process for all boxes was not successful
-    so return 'false'. if none is locked, return 'true'.
+    '''Checks if all the boxes in a list of boxes containing the keys
+    (indices) to other boxes can be unlocked given that the first
+    box is unlocked.
     '''
-    for status in range(len(locked_unlocked)):
-        if locked_unlocked[status] == 'unlocked':
-            pass
-        else:
-            return False
-
-    return True
+    n = len(boxes)
+    seen_boxes = set([0])
+    unseen_boxes = set(boxes[0]).difference(set([0]))
+    while len(unseen_boxes) > 0:
+        boxIdx = unseen_boxes.pop()
+        if not boxIdx or boxIdx >= n or boxIdx < 0:
+            continue
+        if boxIdx not in seen_boxes:
+            unseen_boxes = unseen_boxes.union(boxes[boxIdx])
+            seen_boxes.add(boxIdx)
+    return n == len(seen_boxes)
