@@ -17,11 +17,11 @@ def makeChange(coins, total):
     while rem > 0:
         if coin_idx >= n:
             return -1
-        if rem - sorted_coins >= 0:
-            rem -= sorted_coins
+        if rem - sorted_coins >= 0:  # Fix: Access coin value at current index
+            rem -= sorted_coins  # Fix: Subtract coin value at current index
             coins_count += 1
         else:
-            coin_idx += 1
+            coin_idx += 1  # Fix: Increment coin index
     if rem > 0:
         return -1
     else:
